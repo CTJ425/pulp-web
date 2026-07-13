@@ -1,0 +1,114 @@
+# Stage 1 dev/POC 環境(CLAUDE.md 指令表經 Makefile 操作本檔)。
+# 正式 Stage 1 部署(TLS、/srv/pulp bind mount)見 docs/DEPLOYMENT.md §1。
+#
+# profiles:
+#   dev — 迷你上游 fixtures(fixtures 靜態站 + upstream-registry),只在開發環境啟動
+#   cli — tools 容器(pulp-cli + jq),由 `docker compose run` 隨用隨起
+#   app — bff / frontend(P1 實作後啟用)
+name: lab-mirror
+
+services:
+  postgres:
+    image: docker.io/library/postgres:16
+    environment:
+      POSTGRES_USER: pulp
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?generate deploy/compose/.env via make dev}
+      POSTGRES_DB: pulp
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pulp"]
+      interval: 5s
+      retries: 12
+
+  redis:
+    image: docker.io/library/redis:7
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 12
+
+  pulp:
+    image: docker.io/pulp/pulp:3.114
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      PULP_WORKERS: "2"
+      # settings.py 以 os.environ 讀取
+      PULP_DB_PASSWORD: ${DB_PASSWORD}
+      # dynaconf 環境變數優先於 settings.py,dev 覆寫 content origin
+      PULP_CONTENT_ORIGIN: ${CONTENT_ORIGIN:-http://localhost:8080}
+    volumes:
+      - pulp_storage:/var/lib/pulp
+      - ./settings/settings.py:/etc/pulp/settings.py:ro
+      # 容器首次啟動產生的 DB 欄位加密金鑰,必須跨重啟保留
+      - pulp_certs:/etc/pulp/certs
+    # 首次啟動要跑 DB migration,start_period 給足時間
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost/pulp/api/v3/status/ >/dev/null"]
+      interval: 10s
+      retries: 30
+      start_period: 300s
+
+  nginx:
+    image: docker.io/library/nginx:1.27
+    depends_on:
+      pulp: { condition: service_healthy }
+      bff: { condition: service_healthy }
+      frontend: { condition: service_healthy }
+    volumes:
+      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-8080}:80"
+
+  # ---- dev profile:迷你上游(tests/seed 一律打這裡,不碰真實上游) ----
+
+  fixtures:
+    profiles: ["dev"]
+    image: docker.io/library/nginx:1.27
+    volumes:
+      - ../../fixtures:/usr/share/nginx/html:ro
+
+  upstream-registry:
+    profiles: ["dev"]
+    image: docker.io/library/registry:2
+    volumes:
+      - ../../fixtures/tiny-registry/data:/var/lib/registry
+
+  # ---- cli profile:pulp-cli / jq 工具箱(docker compose run --rm tools ...) ----
+
+  tools:
+    profiles: ["cli"]
+    build: ./tools
+    environment:
+      PULP_BASE_URL: http://pulp
+      PULP_USERNAME: admin
+      PULP_PASSWORD: ${PULP_ADMIN_PASSWORD}
+      MIRROR_URL: http://nginx
+    volumes:
+      - ../..:/work
+    working_dir: /work
+
+  # ---- 自建元件(P1):BFF 與前端 ----
+
+  bff:
+    build: ../../bff
+    environment:
+      PULP_URL: http://pulp
+      PULP_USERNAME: admin
+      PULP_PASSWORD: ${PULP_ADMIN_PASSWORD}
+      # client-config 片段顯示的對外位址
+      MIRROR_URL: ${CONTENT_ORIGIN:-http://localhost:8080}
+    depends_on:
+      pulp: { condition: service_healthy }
+
+  frontend:
+    build: ../../frontend
+    environment:
+      API_BASE_URL: /api
+
+volumes:
+  pgsql:
+  pulp_storage:
+  pulp_certs:

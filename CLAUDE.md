@@ -38,7 +38,7 @@ docs/        SPEC / DEPLOYMENT / VERIFICATION / TROUBLESHOOTING / AGENT_DEV
 | `make test-api` | API 整合測試 | exit 0 |
 | `make e2e` | Playwright 前端測試 | exit 0 |
 | `make smoke` | VERIFICATION §8 冒煙腳本 | exit 0 |
-| `make lint` | ruff + eslint + tsc --noEmit | exit 0 |
+| `make lint` | ruff + oxlint + tsc -b | exit 0 |
 | `make down` | 收掉 dev 環境 | — |
 
 ## 開發規則
