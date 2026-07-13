@@ -1,0 +1,7 @@
+# dev 環境本地資料
+.env
+data/
+.kube-dev/
+__pycache__/
+node_modules/
+*.pyc

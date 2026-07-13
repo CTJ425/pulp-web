@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker version *)",
+      "Bash(git --version)",
+      "Bash(command -v uv uvx pip3 jq curl dpkg-deb rpmbuild createrepo_c)",
+      "Bash(docker compose *)"
+    ]
+  }
+}
