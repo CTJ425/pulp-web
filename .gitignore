@@ -2,6 +2,19 @@
 .env
 data/
 .kube-dev/
+
+# Python
 __pycache__/
-node_modules/
 *.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Playwright
+test-results/
+playwright-report/

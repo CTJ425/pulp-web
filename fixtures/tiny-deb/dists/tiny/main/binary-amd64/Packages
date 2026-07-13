@@ -1,0 +1,28 @@
+Package: tiny-bye-deb
+Version: 1.0
+Architecture: amd64
+Maintainer: lab-mirror fixtures <dev@lab.local>
+Filename: pool/main/t/tiny-bye-deb/tiny-bye-deb_1.0_amd64.deb
+Size: 812
+MD5sum: b4322aa4d5dbf0bb53c03a3a95a60821
+SHA1: 217c736a55db04aa2565a55eee56b58271cca301
+SHA256: ad5ac230eb409f578ca333318b784836a46fdceb149796425ffff71e6ec466df
+Section: misc
+Priority: optional
+Description: Lab mirror test fixture package (tiny-bye-deb)
+ Tiny fixture package for lab-mirror dev tests.
+
+Package: tiny-hello-deb
+Version: 1.0
+Architecture: amd64
+Maintainer: lab-mirror fixtures <dev@lab.local>
+Filename: pool/main/t/tiny-hello-deb/tiny-hello-deb_1.0_amd64.deb
+Size: 812
+MD5sum: cf1ad3df67fded5d931f4f56923952fe
+SHA1: 4c3812ed1abb7f6d6cef1b2a8de9ac461b834b50
+SHA256: e35b254794099e84870836963fe852e939c0c759046713fec986fe1138f701f5
+Section: misc
+Priority: optional
+Description: Lab mirror test fixture package (tiny-hello-deb)
+ Tiny fixture package for lab-mirror dev tests.
+

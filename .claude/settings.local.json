@@ -4,7 +4,29 @@
       "Bash(docker version *)",
       "Bash(git --version)",
       "Bash(command -v uv uvx pip3 jq curl dpkg-deb rpmbuild createrepo_c)",
-      "Bash(docker compose *)"
+      "Bash(docker compose *)",
+      "Bash(chmod +x scripts/*.sh)",
+      "Bash(docker pull *)",
+      "Bash(make env *)",
+      "Bash(make fixtures *)",
+      "Bash(sudo -n apt-get install -y make)",
+      "Bash(docker manifest *)",
+      "Bash(make dev *)",
+      "Bash(make seed *)",
+      "Bash(make smoke *)",
+      "Bash(curl -si http://localhost:8080/pulp/content/tiny-deb/dists/tiny/Release)",
+      "Bash(curl -s http://localhost:8080/pulp/content/tiny-deb/)",
+      "Bash(curl -s http://localhost:8080/pulp/content/tiny-deb/dists/tiny/)",
+      "Bash(python3 -m json.tool)",
+      "Bash(docker run *)",
+      "Bash(docker create *)",
+      "Bash(docker export *)",
+      "Bash(tar -xO hello.txt)",
+      "Bash(docker rm *)",
+      "Bash(make down *)",
+      "Bash(make status *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'docs: 新增專案 README\\(部署與操作指南\\) *)"
     ]
   }
 }

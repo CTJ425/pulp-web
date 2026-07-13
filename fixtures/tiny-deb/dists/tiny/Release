@@ -1,0 +1,18 @@
+Architectures: amd64
+Codename: tiny
+Components: main
+Date: Mon, 13 Jul 2026 13:06:46 +0000
+Origin: lab-mirror-fixtures
+Suite: tiny
+MD5Sum:
+ 28455110622608d21ddcefbda117fa31              964 main/binary-amd64/Packages
+ b389de858d4b01f27156c3bf5c6ad021              460 main/binary-amd64/Packages.gz
+SHA1:
+ 90f7d3395205174bbdd1e7256115c659877e3781              964 main/binary-amd64/Packages
+ 136e413f52df7cf03d5eaa38d9ab3897aa069c37              460 main/binary-amd64/Packages.gz
+SHA256:
+ a6d06be68489a996f396173b9f7411db5463a4e7bc24dd73566c26c52904fa0c              964 main/binary-amd64/Packages
+ 001e5fd8beef50dd3e79ec4b42c7654b69961483630dca4754b7f0c61d921409              460 main/binary-amd64/Packages.gz
+SHA512:
+ c0284c992d84816743a8fc76b9b3621cb8b6ec4489401157a8c89b5c2bb40be28ae37969de7268acefde0bd79e6173b9f7d3298a1642c489513196e1d9d0ff9d              964 main/binary-amd64/Packages
+ d3558f6f77135cd3c9c660694caa6ce558dfe3bcca287de6faa736ffd25263d3995b1e45d063de6a9c8749ade72825c9631ee7def1f343c32ed92547bd1ba286              460 main/binary-amd64/Packages.gz
